@@ -36,4 +36,4 @@ $ npm run test:cov
 
 ## Stay in touch
 
-- Author - [Bernt Anker]bernt.anker@rs.no)
+- Author - [Bernt Anker](bernt.anker@rs.no)

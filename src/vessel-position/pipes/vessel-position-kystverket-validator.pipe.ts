@@ -30,7 +30,11 @@ export class VesselPositionKystverketValidatorPipe implements PipeTransform {
       return vesselPosition;
     } catch (error) {
       if (error instanceof InvalidVesselPositionError) {
-        this.logger.error(error.message,null, VesselPositionKystverketValidatorPipe.name)
+        this.logger.error(
+          error.message,
+          null,
+          VesselPositionKystverketValidatorPipe.name,
+        );
         return null;
       }
       throw error;
@@ -40,8 +44,10 @@ export class VesselPositionKystverketValidatorPipe implements PipeTransform {
   private _validate(value: any) {
     const error = validateSync(value);
     if (error.length) {
-      const {constraints} = error[0]
-      throw new InvalidVesselPositionError(constraints[Object.keys(constraints)[0]]);
+      const { constraints } = error[0];
+      throw new InvalidVesselPositionError(
+        constraints[Object.keys(constraints)[0]],
+      );
     }
   }
 }

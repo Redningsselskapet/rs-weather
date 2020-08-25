@@ -1,6 +1,6 @@
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+RS-Weather is a weather tracker that tracks all rs vessels
 
 ## Installation
 

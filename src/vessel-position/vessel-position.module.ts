@@ -1,8 +1,7 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module, HttpModule, Logger } from '@nestjs/common';
 import { VesselPositionService } from './vessel-position.service';
 import { VesselPositionKystverketValidatorPipe } from './pipes/vessel-position-kystverket-validator.pipe';
 import { VessselPositionMatrineTrafficValidatorPipe } from './pipes/vesssel-position-matrine-traffic-validator.pipe';
-import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [HttpModule],
@@ -10,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
     VesselPositionService,
     VesselPositionKystverketValidatorPipe,
     VessselPositionMatrineTrafficValidatorPipe,
+    Logger,
   ],
   exports: [VesselPositionService],
 })

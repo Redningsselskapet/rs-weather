@@ -1,4 +1,4 @@
-import { Injectable, HttpService, NotFoundException } from '@nestjs/common';
+import { Injectable, HttpService, NotFoundException, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { VesselWeather } from './schemas/vessel-weather.schema';
 import { Model } from 'mongoose';
@@ -12,6 +12,7 @@ import { WeatherValidationPipe } from './pipes/weather-validation.pipe';
 import { Weather } from './interfaces/weather.interface';
 import { CreateVesselWeatherDtoValidationPipe } from './pipes/create-vessel-weather-dto-validation.pipe';
 import * as moment from 'moment';
+import { InvalidVesselPositionError } from 'src/vessel-position/errors/InvalidVesselPositionData.error';
 
 @Injectable()
 export class VesselWeatherService {
@@ -22,6 +23,7 @@ export class VesselWeatherService {
     private http: HttpService,
     private weatherValidationPipe: WeatherValidationPipe,
     private createVesselWeatherDtoValidationPipe: CreateVesselWeatherDtoValidationPipe,
+    private logger: Logger
   ) {}
 
   addVesselWeather(createVesselWeatherDto: CreateVesselWeatherDto) {
@@ -102,7 +104,8 @@ export class VesselWeatherService {
           }
         });
     } catch (error) {
-      console.log('error: ' + error);
+      this.logger.error(error)
+      throw error
     }
   }
 

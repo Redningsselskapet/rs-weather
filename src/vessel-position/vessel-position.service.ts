@@ -46,7 +46,7 @@ export class VesselPositionService {
 
   getVesselPositions(): Observable<VesselPosition> {
     return merge(
-      // this.getVesselPositionsMarineTraffic(),
+      this.getVesselPositionsMarineTraffic(),
       this.getVesselPositionsKystverket(),
     );
   }

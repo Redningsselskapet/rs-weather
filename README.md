@@ -1,6 +1,6 @@
 ## Description
 
-RS-Weather is a weather tracker that tracks all rs vessels
+RS-Weather is a weather tracker that tracks the weather on every rs vessels
 
 ## Installation
 

@@ -1,6 +1,6 @@
 ## Description
 
-RS-Weather is a weather tracker that tracks the weather on every rs vessels
+RS-Weather is a weather tracker that collects the weather on every rs vessels and makes it searchable.
 
 ## Installation
 
@@ -36,4 +36,4 @@ $ npm run test:cov
 
 ## Stay in touch
 
-- Author - [Bernt Anker](https://kamilmysliwiec.com)
+- Author - [Bernt Anker]bernt.anker@rs.no)

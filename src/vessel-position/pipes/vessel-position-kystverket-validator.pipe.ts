@@ -9,7 +9,6 @@ import { validateSync } from 'class-validator';
 export class VesselPositionKystverketValidatorPipe implements PipeTransform {
   transform(value: any): VesselPosition {
     value.provider = VesselDataProvider.KYSTVERKET
-    if (value.MMSI == '257075250') value.MMSI = 'koko'
     const vesselPosition: VesselPositionKystverketDto = plainToClass(VesselPositionKystverketDto, value, {
       excludeExtraneousValues: true,
     });

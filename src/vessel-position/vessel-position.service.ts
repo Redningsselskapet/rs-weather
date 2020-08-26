@@ -11,7 +11,8 @@ import { VesselPositionKystverketValidatorPipe } from './pipes/vessel-position-k
 import { Observable, merge } from 'rxjs';
 import { VesselPosition } from './interfaces/vessel-position.interface';
 import { VessselPositionMatrineTrafficValidatorPipe } from './pipes/vesssel-position-matrine-traffic-validator.pipe';
-
+import { isNull } from 'util';
+import { Error } from 'mongoose';
 @Injectable()
 export class VesselPositionService {
   constructor(
@@ -22,7 +23,7 @@ export class VesselPositionService {
 
   getVesselPositionsKystverket(): Observable<VesselPosition> {
     return this.http
-      .get(process.env.POSITIONS_URL)
+      .get('http://ais.rs.no/aktive_pos.json')
       .pipe(switchMap(response => response.data))
       .pipe(
         map(vesselPosition =>
@@ -44,10 +45,11 @@ export class VesselPositionService {
       );
   }
 
-  getVesselPositions(): Observable<VesselPosition> {
-    return merge(
-      this.getVesselPositionsMarineTraffic(),
-      this.getVesselPositionsKystverket(),
-    );
-  }
+  // split this i two. Run them in separate intervals 
+  // getVesselPositions(): Observable<VesselPosition> {
+  //   return merge(
+  //     this.getVesselPositionsMarineTraffic()
+  //     // this.getVesselPositionsKystverket()
+  //   );
+  // }
 }

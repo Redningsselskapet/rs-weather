@@ -35,8 +35,16 @@ export class VesselWeatherService {
     const vesselWeather = new this.vesselWeatherModel(createVesselWeatherDto);
     return vesselWeather
       .save()
-      .then(data => this.logger.log(data))
-      // .catch(error => console.log(error.message));
+      .then(data =>
+        this.logger.log(
+          `vessel weather data written to db (mmsi: ${data.mmsi})`,
+        ),
+      )
+      .catch(error => {
+        if (error.code === 11000) {
+          this.logger.warn(error.message);
+        }
+      });
   }
 
   async getVesselweather(
@@ -63,9 +71,6 @@ export class VesselWeatherService {
       mmsi,
     });
 
-    // TODO: logger
-    console.log(vesselWeatherPositions);
-
     let nearestVesselWeatherPosition: VesselWeather = null;
     let smallestTimeDiff = (timeWindowMinutes * 1000) / 2;
 
@@ -84,6 +89,8 @@ export class VesselWeatherService {
       throw new NotFoundException('No Weather available for this date');
     }
 
+    this.logger.verbose(nearestVesselWeatherPosition);
+
     return nearestVesselWeatherPosition.toObject({
       transform: (doc, ret) => {
         delete ret.__v;
@@ -92,7 +99,7 @@ export class VesselWeatherService {
     });
   }
 
-  @Interval(240000)
+  @Interval(90000)
   private collectKystverket() {
     this.vesselPositionService.getVesselPositionsKystverket().subscribe(
       vesselPosition => {
@@ -126,8 +133,7 @@ export class VesselWeatherService {
           });
         }
       },
-      err =>
-        this.logger.error(err.message, null, 'collectMarineTraffic'),
+      err => this.logger.error(err.message, null, 'collectMarineTraffic'),
     );
   }
 

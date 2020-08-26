@@ -15,9 +15,9 @@ import { VessselPositionMatrineTrafficValidatorPipe } from './pipes/vesssel-posi
 })
 export class VesselPositionModule {
   constructor(private vesselPositionService: VesselPositionService) {
-    this.vesselPositionService.getVesselPositions().subscribe(
-      data => {},
-      error => console.log('ERROR: ' + error),
-    );
+    // this.vesselPositionService.getVesselPositions().subscribe(
+    //   data => {},
+    //   error => console.log('ERROR: ' + error),
+    // );
   }
 }

@@ -1,4 +1,9 @@
-import { Injectable, HttpService, NotFoundException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  HttpService,
+  NotFoundException,
+  Logger,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { VesselWeather } from './schemas/vessel-weather.schema';
 import { Model } from 'mongoose';
@@ -12,7 +17,7 @@ import { WeatherValidationPipe } from './pipes/weather-validation.pipe';
 import { Weather } from './interfaces/weather.interface';
 import { CreateVesselWeatherDtoValidationPipe } from './pipes/create-vessel-weather-dto-validation.pipe';
 import * as moment from 'moment';
-import { InvalidVesselPositionError } from 'src/vessel-position/errors/InvalidVesselPositionData.error';
+import { InvalidVesselPositionError } from 'src/vessel-position/errors/invalid-vessel-position-data.error';
 
 @Injectable()
 export class VesselWeatherService {
@@ -23,15 +28,15 @@ export class VesselWeatherService {
     private http: HttpService,
     private weatherValidationPipe: WeatherValidationPipe,
     private createVesselWeatherDtoValidationPipe: CreateVesselWeatherDtoValidationPipe,
-    private logger: Logger
+    private logger: Logger,
   ) {}
 
   addVesselWeather(createVesselWeatherDto: CreateVesselWeatherDto) {
     const vesselWeather = new this.vesselWeatherModel(createVesselWeatherDto);
     return vesselWeather
       .save()
-      .then(data => console.log(data))
-      .catch(error => console.log(error.message));
+      .then(data => this.logger.log(data))
+      // .catch(error => console.log(error.message));
   }
 
   async getVesselweather(
@@ -86,27 +91,43 @@ export class VesselWeatherService {
     });
   }
 
-  @Interval(40000)
-  private collect() {
-    try {
-      this.vesselPositionService
-        .getVesselPositions()
-        .subscribe(vesselPosition => {
-          if (vesselPosition) {
-            this.fetchWeather(vesselPosition).subscribe(weather => {
-              const createVesselWeatherDto = this.createVesselWeatherDtoValidationPipe.transform(
-                { ...weather, ...vesselPosition },
-              );
-              if (createVesselWeatherDto) {
-                this.addVesselWeather(createVesselWeatherDto);
-              }
-            });
-          }
-        });
-    } catch (error) {
-      this.logger.error(error)
-      throw error
-    }
+  @Interval(240000)
+  private collectKystverket() {
+    this.vesselPositionService.getVesselPositionsKystverket().subscribe(
+      vesselPosition => {
+        if (vesselPosition) {
+          this.fetchWeather(vesselPosition).subscribe(weather => {
+            const createVesselWeatherDto = this.createVesselWeatherDtoValidationPipe.transform(
+              { ...weather, ...vesselPosition },
+            );
+            if (createVesselWeatherDto) {
+              this.addVesselWeather(createVesselWeatherDto);
+            }
+          });
+        }
+      },
+      err => console.log(this.logger.error(err, null, 'collectKystverket')),
+    );
+  }
+
+  @Interval(600000)
+  private collectMarineTraffic() {
+    this.vesselPositionService.getVesselPositionsMarineTraffic().subscribe(
+      vesselPosition => {
+        if (vesselPosition) {
+          this.fetchWeather(vesselPosition).subscribe(weather => {
+            const createVesselWeatherDto = this.createVesselWeatherDtoValidationPipe.transform(
+              { ...weather, ...vesselPosition },
+            );
+            if (createVesselWeatherDto) {
+              this.addVesselWeather(createVesselWeatherDto);
+            }
+          });
+        }
+      },
+      err =>
+        this.logger.error(err.message, null, 'collectMarineTraffic'),
+    );
   }
 
   private fetchWeather(vesselPosition: VesselPosition): Observable<Weather> {
@@ -121,5 +142,3 @@ export class VesselWeatherService {
       .pipe(map(data => this.weatherValidationPipe.transform(data)));
   }
 }
-
-// https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lng}&source=sg&params=waveHeight,waterTemperature,windSpeed,windDirection,visibility,cloudCover,precipitation,airTemperature&start=2020-08-10T09:07:30&end=2020-08-10T09:07:30

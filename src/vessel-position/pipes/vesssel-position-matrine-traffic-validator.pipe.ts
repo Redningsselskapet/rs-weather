@@ -4,7 +4,7 @@ import { VesselPositionMarineTrafficDto } from '../dto/vessel-position-marine-tr
 import { plainToClass } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { VesselDataProvider } from '../enums/vessel-data-provider.enum';
-import { InvalidVesselPositionError } from '../errors/InvalidVesselPositionData.error';
+import { InvalidVesselPositionError } from '../errors/invalid-vessel-position-data.error';
 
 @Injectable()
 export class VessselPositionMatrineTrafficValidatorPipe implements PipeTransform {

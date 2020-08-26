@@ -63,6 +63,7 @@ export class VesselWeatherService {
       mmsi,
     });
 
+    // TODO: logger
     console.log(vesselWeatherPositions);
 
     let nearestVesselWeatherPosition: VesselWeather = null;

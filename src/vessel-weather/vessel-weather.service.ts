@@ -29,7 +29,10 @@ export class VesselWeatherService {
     private weatherValidationPipe: WeatherValidationPipe,
     private createVesselWeatherDtoValidationPipe: CreateVesselWeatherDtoValidationPipe,
     private logger: Logger,
-  ) {}
+  ) {
+    this.collectKystverket();
+    this.collectMarineTraffic();
+  }
 
   addVesselWeather(createVesselWeatherDto: CreateVesselWeatherDto) {
     const vesselWeather = new this.vesselWeatherModel(createVesselWeatherDto);

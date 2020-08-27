@@ -86,7 +86,7 @@ export class VesselWeatherService {
     });
 
     if (!nearestVesselWeatherPosition) {
-      throw new NotFoundException('No Weather available for this date');
+      throw new NotFoundException('No vessel weather available found');
     }
 
     this.logger.verbose(nearestVesselWeatherPosition);

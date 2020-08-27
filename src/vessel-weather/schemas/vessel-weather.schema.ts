@@ -1,7 +1,7 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema()
+@Schema({timestamps: true, versionKey: 'version'})
 export class VesselWeather extends Document {
   @Prop()
   mmsi: string;
@@ -41,6 +41,7 @@ export class VesselWeather extends Document {
 
   @Prop()
   weatherTimeStamp: string;
+
 }
 
-export const VesselWeatherSchema = SchemaFactory.createForClass(VesselWeather).index({mmsi: 1, timeStamp: 1}, { unique: true })
+export const VesselWeatherSchema = SchemaFactory.createForClass(VesselWeather).index({mmsi: 1, timeStamp: 1}, { unique: true }).index({createdAt: 1}, {expires: '365d'})

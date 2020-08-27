@@ -18,6 +18,6 @@ export class VesselWeatherController {
 
     @Get('/:mmsi')
     getVesselWeatherNow(@Param('mmsi') mmsi: string): Promise<any> {
-        return Promise.resolve('not implemented')
+        return this.vesselWeatherService.getVesselweather(mmsi, new Date().toISOString())
     }
 }

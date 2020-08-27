@@ -17,6 +17,8 @@ export class VesselWeatherController {
     }
 
     @Get('/:mmsi')
+    @ApiOkResponse({description: 'Returns latest vessel weather'})
+    @ApiParam({name: 'mmsi', example: '257654700'})
     getVesselWeatherNow(@Param('mmsi') mmsi: string): Promise<any> {
         return this.vesselWeatherService.getVesselweather(mmsi, new Date().toISOString())
     }

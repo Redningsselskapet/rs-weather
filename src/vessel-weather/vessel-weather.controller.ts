@@ -4,7 +4,7 @@ import { VesselWeather } from './schemas/vessel-weather.schema';
 import { ApiOkResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { CreateVesselWeatherDto } from './dto/createVesselWeather.dto';
 
-@Controller('vessel-weather')
+@Controller('api')
 export class VesselWeatherController {
     constructor(private vesselWeatherService: VesselWeatherService) {}
 

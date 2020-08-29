@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vessel-weather-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vessel-weather
+  template:
+    metadata:
+      labels:
+        app: vessel-weather
+    spec:
+      containers:
+        - name: vessel-weather
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          image: banker.azurecr.io/vessel-weather
+          env:
+            - name: MONGO_URI
+              value: 'mongodb+srv://cluster0.enp1l.azure.mongodb.net/weather-dev-db?retryWrites=true&w=majority'
+            - name: POSITIONS_URL
+              value: 'http://ais.rs.no/aktive_pos.json'
+            - name: TIME_WINDOW_MINUTES
+              value: '60'
+            - name: DB_USER
+              value: 'db'
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: DB_PASS
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: stormglass-secret
+                  key: API_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vessel-weather-service
+spec:
+  selector:
+    app: vessel-weather
+  ports:
+    - name: http
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

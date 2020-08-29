@@ -13,7 +13,11 @@ import { ConfigModule } from '@nestjs/config';
     VesselWeatherModule,
     MongooseModule.forRoot(
       process.env.MONGO_URI,
-      { useCreateIndex: true },
+      { 
+        useCreateIndex: true, 
+        user: process.env.DB_USER,
+        pass: process.env.DB_PASS
+      },
     ),
   ],
 })

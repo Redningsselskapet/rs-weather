@@ -1,5 +1,5 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
-import { CreateVesselWeatherDto } from '../dto/createVesselWeather.dto';
+import { CreateVesselWeatherDto } from '../dto/create-vessel-weather.dto';
 import { plainToClass } from 'class-transformer';
 import { validate, validateSync } from 'class-validator';
 

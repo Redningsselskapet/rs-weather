@@ -7,7 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { VesselWeather } from './schemas/vessel-weather.schema';
 import { Model } from 'mongoose';
-import { CreateVesselWeatherDto } from './dto/createVesselWeather.dto';
+import { CreateVesselWeatherDto } from './dto/create-vessel-weather.dto';
 import { VesselPositionService } from 'src/vessel-position/vessel-position.service';
 import { Interval } from '@nestjs/schedule';
 import { Observable } from 'rxjs';
@@ -98,6 +98,9 @@ export class VesselWeatherService {
       transform: (doc, ret) => {
         delete ret.__v;
         delete ret._id;
+        delete ret.createdAt;
+        delete ret. updatedAt;
+        delete ret.version;
       },
     });
   }

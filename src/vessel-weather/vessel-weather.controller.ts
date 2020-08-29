@@ -2,7 +2,7 @@ import { Controller, Get, UseInterceptors, ClassSerializerInterceptor, Query, Pa
 import { VesselWeatherService } from './vessel-weather.service';
 import { VesselWeather } from './schemas/vessel-weather.schema';
 import { ApiOkResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
-import { CreateVesselWeatherDto } from './dto/createVesselWeather.dto';
+import { CreateVesselWeatherDto } from './dto/create-vessel-weather.dto';
 
 @Controller('api')
 export class VesselWeatherController {

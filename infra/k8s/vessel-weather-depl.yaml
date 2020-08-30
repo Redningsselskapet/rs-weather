@@ -22,15 +22,17 @@ spec:
               memory: "128Mi"
               cpu: "500m"
           image: banker.azurecr.io/vessel-weather
+          imagePullPolicy: Always
+
           env:
             - name: MONGO_URI
-              value: 'mongodb+srv://cluster0.enp1l.azure.mongodb.net/weather-dev-db?retryWrites=true&w=majority'
+              value: "mongodb+srv://cluster0.enp1l.azure.mongodb.net/weather-dev-db?retryWrites=true&w=majority"
             - name: POSITIONS_URL
-              value: 'http://ais.rs.no/aktive_pos.json'
+              value: "http://ais.rs.no/aktive_pos.json"
             - name: TIME_WINDOW_MINUTES
-              value: '60'
+              value: "60"
             - name: DB_USER
-              value: 'db'
+              value: "db"
             - name: DB_PASS
               valueFrom:
                 secretKeyRef:
@@ -41,6 +43,8 @@ spec:
                 secretKeyRef:
                   name: stormglass-secret
                   key: API_KEY
+      imagePullSecrets:
+        - name: azurecr-secret
 ---
 apiVersion: v1
 kind: Service

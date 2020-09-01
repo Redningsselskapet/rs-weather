@@ -26,8 +26,6 @@ spec:
           env:
             - name: MONGO_URI
               value: "mongodb+srv://cluster0.enp1l.azure.mongodb.net/weather-dev-db?retryWrites=true&w=majority"
-            - name: POSITIONS_URL
-              value: "http://ais.rs.no/aktive_pos.json"
             - name: TIME_WINDOW_MINUTES
               value: "60"
             - name: DB_USER

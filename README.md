@@ -2,6 +2,18 @@
 
 RS-Weather is a weather tracker that collects the weather on every rs vessels and makes it searchable.
 
+## Environment parameters
+
+| Parameter           | Description                   | Default value                    |
+|---------------------|-------------------------------|----------------------------------|
+| API_KEY             | StormGlass API KEY            |                                  |
+| DB_USER             | Database user                 |                                  |
+| DB_PASS             | Database password             |                                  |
+| MONGO_URI           | MongoDB URI                   |                                  |
+| TIME_WINDOW_MINUTES | Find nearest vessel weather position in a search window of a nubmer of minutes | 60                               |
+| DATA_STORED_IN_DAYS | How long to store vessel weather data            | 365'                             |
+|
+
 
 ## Pushing polling from azure container registry
 

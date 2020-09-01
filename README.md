@@ -3,45 +3,35 @@
 RS-Weather is a weather tracker that collects the weather on every rs vessels and makes it searchable.
 
 
-
-
-## Installation
+## Pushing polling from azure container registry
 
 ```bash
-$ npm install
+# login azure container registry
+$ docker login banker.azurecr.io
 ```
 
-## Running the app
-
+## Spin up application in a kubernetes environment
 ```bash
-# development
-$ npm run start
+# Create kubernetes secrets to pull docker image
+$ kubectl secret azurecr-secret banker.azurecr.io --docker-username=banker --docker-password <YOUR_PASSWORD>
+# set db secret
+$ kubectl create secret generic db-secret --from-literal=<DB PASSWORD>
 
-# watch mode
-$ npm run start:dev
+# set API_KEY
+$ kubectl create secret generic stormglass-secret --from-literal=<API_KEY>
 
-# production mode
-$ npm run start:prod
+# enable ingress - docker-desktop for windows
+$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.35.0/deploy/static/provider/cloud/deploy.yaml
+
+# spin up the application in kubernetes
+$ kubectl apply -f infra/k8s
+
 ```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
 ## Stay in touch
 
 - Author - [Bernt Anker](bernt.anker@rs.no)
 
-
+---
 
 ## Response Object field Description
 

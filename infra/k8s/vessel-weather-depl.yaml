@@ -22,8 +22,7 @@ spec:
               memory: "128Mi"
               cpu: "500m"
           image: banker.azurecr.io/vessel-weather
-          imagePullPolicy: Always
-
+         
           env:
             - name: MONGO_URI
               value: "mongodb+srv://cluster0.enp1l.azure.mongodb.net/weather-dev-db?retryWrites=true&w=majority"

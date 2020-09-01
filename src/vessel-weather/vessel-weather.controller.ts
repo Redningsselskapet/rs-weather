@@ -1,10 +1,11 @@
 import { Controller, Get, UseInterceptors, ClassSerializerInterceptor, Query, Param } from '@nestjs/common';
 import { VesselWeatherService } from './vessel-weather.service';
 import { VesselWeather } from './schemas/vessel-weather.schema';
-import { ApiOkResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiOkResponse, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateVesselWeatherDto } from './dto/create-vessel-weather.dto';
 
 @Controller('api')
+@ApiTags('Vessel Weather')
 export class VesselWeatherController {
     constructor(private vesselWeatherService: VesselWeatherService) {}
 

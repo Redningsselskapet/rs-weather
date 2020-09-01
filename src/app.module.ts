@@ -7,18 +7,15 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     VesselPositionModule,
     VesselWeatherModule,
-    MongooseModule.forRoot(
-      process.env.MONGO_URI,
-      { 
-        useCreateIndex: true, 
-        user: process.env.DB_USER,
-        pass: process.env.DB_PASS
-      },
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI, {
+      useCreateIndex: true,
+      user: process.env.DB_USER,
+      pass: process.env.DB_PASS,
+    }),
   ],
 })
 export class AppModule {}

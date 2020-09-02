@@ -25,12 +25,12 @@ $ docker login banker.azurecr.io
 ## Spin up application in a kubernetes environment
 ```bash
 # Create kubernetes secrets to pull docker image
-$ kubectl secret azurecr-secret banker.azurecr.io --docker-username=banker --docker-password <YOUR_PASSWORD>
+$ kubectl create secret docker-registry azurecr-secret --docker-server banker.azurecr.io --docker-username banker --docker-password <PASSWORD>
 # set db secret
-$ kubectl create secret generic db-secret --from-literal=<DB PASSWORD>
+$ kubectl create secret generic db-secret --from-literal=DB_PASS=<PASSWORD>
 
 # set API_KEY
-$ kubectl create secret generic stormglass-secret --from-literal=<API_KEY>
+$ kubectl create secret generic stormglass-secret --from-literal=API_KEY=<API_KEY>
 
 # enable ingress - docker-desktop for windows
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.35.0/deploy/static/provider/cloud/deploy.yaml
@@ -60,6 +60,6 @@ $ kubectl apply -f infra/k8s
 | windSpeed        | Speed of wind at 10m above sea level in meters per second.                    |
 | mmsi             | Maritime Mobile Service Identity                                              |
 | lat              | Latitiude in decimals                                                         |
-| lng              | Lonigitude in decimals                                                        |
+| lng              | Longitude in decimals                                                        |
 | timeStamp        | Timestamp in UTC                                                              |
 |                  |                                                                               |

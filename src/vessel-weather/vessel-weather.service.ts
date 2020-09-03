@@ -99,7 +99,7 @@ export class VesselWeatherService {
         delete ret.__v;
         delete ret._id;
         delete ret.createdAt;
-        delete ret. updatedAt;
+        delete ret.updatedAt;
         delete ret.version;
       },
     });
@@ -110,10 +110,16 @@ export class VesselWeatherService {
     this.vesselPositionService.getVesselPositionsKystverket().subscribe(
       async vesselPosition => {
         if (vesselPosition) {
-          const exist = await this.vesselWeatherModel.find({mmsi: vesselPosition.mmsi, timeStamp: vesselPosition.timeStamp})
+          const exist = await this.vesselWeatherModel.find({
+            mmsi: vesselPosition.mmsi,
+            timeStamp: vesselPosition.timeStamp,
+          });
           if (exist.length > 0) {
-            this.logger.warn('Already collected in db. Skipping...','collectKystverket')
-            return
+            this.logger.warn(
+              'Already collected in db. Skipping...',
+              'collectKystverket',
+            );
+            return;
           }
           this.fetchWeather(vesselPosition).subscribe(weather => {
             const createVesselWeatherDto = this.createVesselWeatherDtoValidationPipe.transform(
@@ -122,12 +128,12 @@ export class VesselWeatherService {
             if (createVesselWeatherDto) {
               this.addVesselWeather(createVesselWeatherDto);
             }
-          });
+          }, err => this.logger.error(err.message,null,'fetchWeather'));
         } else {
-          console.log('emtpy vessel: ' + vesselPosition)
+          console.log('emtpy vessel: ' + vesselPosition);
         }
       },
-      err => console.log(this.logger.error(err, null, 'collectKystverket')),
+      err => console.log(this.logger.error(err.message, null, 'collectKystverket')),
     );
   }
 
@@ -136,10 +142,16 @@ export class VesselWeatherService {
     this.vesselPositionService.getVesselPositionsMarineTraffic().subscribe(
       async vesselPosition => {
         if (vesselPosition) {
-          const exist = await this.vesselWeatherModel.find({mmsi: vesselPosition.mmsi, timeStamp: vesselPosition.timeStamp})
+          const exist = await this.vesselWeatherModel.find({
+            mmsi: vesselPosition.mmsi,
+            timeStamp: vesselPosition.timeStamp,
+          });
           if (exist.length > 0) {
-            this.logger.warn('Already collected in db. Skipping...','collectKystverket')
-            return
+            this.logger.warn(
+              'Already collected in db. Skipping...',
+              'collectKystverket',
+            );
+            return;
           }
           this.fetchWeather(vesselPosition).subscribe(weather => {
             const createVesselWeatherDto = this.createVesselWeatherDtoValidationPipe.transform(
@@ -148,7 +160,7 @@ export class VesselWeatherService {
             if (createVesselWeatherDto) {
               this.addVesselWeather(createVesselWeatherDto);
             }
-          });
+          }, err => this.logger.error(err.message, null, 'fetchWeather'));
         }
       },
       err => this.logger.error(err.message, null, 'collectMarineTraffic'),

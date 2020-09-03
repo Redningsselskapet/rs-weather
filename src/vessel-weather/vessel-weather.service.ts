@@ -105,7 +105,7 @@ export class VesselWeatherService {
     });
   }
 
-  @Interval(15000)
+  @Interval(90000)
   private collectKystverket() {
     this.vesselPositionService.getVesselPositionsKystverket().subscribe(
       async vesselPosition => {
